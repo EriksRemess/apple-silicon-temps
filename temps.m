@@ -111,16 +111,6 @@ CFArrayRef getThermalValues(CFDictionaryRef sensors) {
     return array;
 }
 
-NSArray* thermalArray() {
-    CFDictionaryRef currentSensors = matching(0xff00, 5);
-    return CFBridgingRelease(getProductNames(currentSensors));
-}
-
-NSArray* returnThermalValues() {
-    CFDictionaryRef currentSensors = matching(0xff00, 5);
-    return CFBridgingRelease(getThermalValues(currentSensors));
-}
-
 int main () {
     CFDictionaryRef thermalSensors = matching(0xff00, 5);
     CFArrayRef thermalNames = getProductNames(thermalSensors);
