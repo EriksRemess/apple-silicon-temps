@@ -8,10 +8,9 @@ Simple CLI app to print out Apple Silicon temperature sensor info.
 
 To recompile:
 
-`
-  gcc temps.m -o temps -framework IOKit -framework Foundation
-  gcc osx-cpu-temp.m -o osx-cpu-temp -framework IOKit -framework Foundation
-`
+`gcc temps.m -o temps -framework IOKit -framework Foundation`
+
+`gcc osx-cpu-temp.m -o osx-cpu-temp -framework IOKit -framework Foundation`
 
 
 
