@@ -12,3 +12,9 @@ To recompile:
   gcc temps.m -o temps -framework IOKit -framework Foundation
   gcc osx-cpu-temp.m -o osx-cpu-temp -framework IOKit -framework Foundation
 `
+
+
+
+Based on:
+* [freedomtan/sensors](https://github.com/freedomtan/sensors)
+* [fermion-star/apple_sensors](https://github.com/fermion-star/apple_sensors)
