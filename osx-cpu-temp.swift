@@ -29,16 +29,63 @@ var temps: [String: Double] = [:]
 var total: Double = 0.0;
 var average: String = "0";
 
+var validSensors: [String] = [
+    "ANE MTR Temp Sensor1",
+    "ISP MTR Temp Sensor5",
+    "PMGR SOC Die Temp Sensor0",
+    "PMGR SOC Die Temp Sensor1",
+    "PMGR SOC Die Temp Sensor2",
+    "PMU tdie1",
+    "PMU tdie2",
+    "PMU tdie4",
+    "PMU tdie5",
+    "PMU tdie6",
+    "PMU tdie7",
+    "PMU tdie8",
+    "SOC MTR Temp Sensor0",
+    "SOC MTR Temp Sensor1",
+    "SOC MTR Temp Sensor2",
+    "eACC MTR Temp Sensor0",
+    "eACC MTR Temp Sensor3",
+    "pACC MTR Temp Sensor2",
+    "pACC MTR Temp Sensor3",
+    "pACC MTR Temp Sensor4",
+    "pACC MTR Temp Sensor5",
+    "pACC MTR Temp Sensor7",
+    "pACC MTR Temp Sensor8",
+    "pACC MTR Temp Sensor9",
+];
+
+var sensorCount: Double = 0.0;
+
 for device in devices as! [IOHIDServiceClient] {
     let event: IOHIDEvent = serviceClientCopyEvent(device, 15, 0, 0);
-    let name: CFString = serviceClientCopyProperty(device, "Product" as CFString);
+    let name: String = serviceClientCopyProperty(device, "Product" as CFString) as String;
     let temp = eventGetFloatValue(event, 983040);
-    temps[name as String] = temp;
-    total += temp;
+
+    if validSensors.contains(name) {
+        temps[name as String] = temp;
+        total += temp;
+        sensorCount += 1.0;
+    }
+
 }
 
-average = String(format: "%.2f", total / Double(temps.count));
+average = String(format: "%.2f", total / sensorCount);
 
-print("\(average)°C");
+if (CommandLine.arguments.count > 1) {
+    for argument in CommandLine.arguments {
+        if (argument == "--all") {
+            print("-------------------------------------");
+            for (key, value) in temps {
+                print("\(key): \(String(format: "%.2f", value))°C");
+            }
+            print("-------------------------------------");
+            print("Average: \(average)°C");
+        }
+    }
+} else {
+    print("\(average)°C");
+}
 
 dlclose(handle);
